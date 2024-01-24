@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataConn", "DataConn.csproj", "{AEE9AED7-671D-4E8E-A362-8B493569F6E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AEE9AED7-671D-4E8E-A362-8B493569F6E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE9AED7-671D-4E8E-A362-8B493569F6E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEE9AED7-671D-4E8E-A362-8B493569F6E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEE9AED7-671D-4E8E-A362-8B493569F6E3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {41B64C00-F84B-408F-A209-AD2FC32EBB8B}
+	EndGlobalSection
+EndGlobal
