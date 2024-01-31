@@ -30,11 +30,13 @@
         {
             Connbtn = new Button();
             statLbl = new Label();
-            pubBtn = new Button();
             subBtn = new Button();
             serverData = new DataGridView();
             viewData = new Button();
+            topicBox = new TextBox();
+            subscribeTopic = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)serverData).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)subscribeTopic).BeginInit();
             SuspendLayout();
             // 
             // Connbtn
@@ -56,38 +58,29 @@
             statLbl.TabIndex = 1;
             statLbl.Text = "Not connected to broker";
             // 
-            // pubBtn
-            // 
-            pubBtn.Location = new Point(31, 60);
-            pubBtn.Name = "pubBtn";
-            pubBtn.Size = new Size(94, 29);
-            pubBtn.TabIndex = 2;
-            pubBtn.Text = "Publish";
-            pubBtn.UseVisualStyleBackColor = true;
-            // 
             // subBtn
             // 
-            subBtn.Location = new Point(145, 60);
+            subBtn.Location = new Point(31, 58);
             subBtn.Name = "subBtn";
             subBtn.Size = new Size(94, 29);
             subBtn.TabIndex = 3;
             subBtn.Text = "Subscribe";
             subBtn.UseVisualStyleBackColor = true;
+            subBtn.Click += subBtn_Click;
             // 
             // serverData
             // 
             serverData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            serverData.Dock = DockStyle.Bottom;
-            serverData.Location = new Point(0, 258);
+            serverData.Location = new Point(1, 244);
             serverData.Name = "serverData";
             serverData.RowHeadersWidth = 51;
-            serverData.Size = new Size(1838, 188);
+            serverData.Size = new Size(1837, 377);
             serverData.TabIndex = 4;
             serverData.CellContentClick += serverData_CellContentClick;
             // 
             // viewData
             // 
-            viewData.Location = new Point(41, 207);
+            viewData.Location = new Point(31, 209);
             viewData.Name = "viewData";
             viewData.Size = new Size(94, 29);
             viewData.TabIndex = 5;
@@ -95,21 +88,41 @@
             viewData.UseVisualStyleBackColor = true;
             viewData.Click += viewData_Click;
             // 
+            // topicBox
+            // 
+            topicBox.Location = new Point(131, 58);
+            topicBox.Name = "topicBox";
+            topicBox.PlaceholderText = "topic/#";
+            topicBox.Size = new Size(166, 27);
+            topicBox.TabIndex = 6;
+            // 
+            // subscribeTopic
+            // 
+            subscribeTopic.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            subscribeTopic.Location = new Point(357, 13);
+            subscribeTopic.Name = "subscribeTopic";
+            subscribeTopic.RowHeadersWidth = 51;
+            subscribeTopic.Size = new Size(367, 187);
+            subscribeTopic.TabIndex = 7;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1838, 446);
+            ClientSize = new Size(1838, 622);
+            Controls.Add(subscribeTopic);
+            Controls.Add(topicBox);
             Controls.Add(viewData);
             Controls.Add(serverData);
             Controls.Add(subBtn);
-            Controls.Add(pubBtn);
             Controls.Add(statLbl);
             Controls.Add(Connbtn);
+            MaximizeBox = false;
             Name = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
-            Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)serverData).EndInit();
+            ((System.ComponentModel.ISupportInitialize)subscribeTopic).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -118,9 +131,10 @@
 
         private Button Connbtn;
         private Label statLbl;
-        private Button pubBtn;
         private Button subBtn;
         private DataGridView serverData;
         private Button viewData;
+        private TextBox topicBox;
+        private DataGridView subscribeTopic;
     }
 }
