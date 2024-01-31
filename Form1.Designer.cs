@@ -32,6 +32,9 @@
             statLbl = new Label();
             pubBtn = new Button();
             subBtn = new Button();
+            serverData = new DataGridView();
+            viewData = new Button();
+            ((System.ComponentModel.ISupportInitialize)serverData).BeginInit();
             SuspendLayout();
             // 
             // Connbtn
@@ -71,17 +74,42 @@
             subBtn.Text = "Subscribe";
             subBtn.UseVisualStyleBackColor = true;
             // 
+            // serverData
+            // 
+            serverData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            serverData.Dock = DockStyle.Bottom;
+            serverData.Location = new Point(0, 258);
+            serverData.Name = "serverData";
+            serverData.RowHeadersWidth = 51;
+            serverData.Size = new Size(1838, 188);
+            serverData.TabIndex = 4;
+            serverData.CellContentClick += serverData_CellContentClick;
+            // 
+            // viewData
+            // 
+            viewData.Location = new Point(41, 207);
+            viewData.Name = "viewData";
+            viewData.Size = new Size(94, 29);
+            viewData.TabIndex = 5;
+            viewData.Text = "View Data";
+            viewData.UseVisualStyleBackColor = true;
+            viewData.Click += viewData_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1838, 446);
+            Controls.Add(viewData);
+            Controls.Add(serverData);
             Controls.Add(subBtn);
             Controls.Add(pubBtn);
             Controls.Add(statLbl);
             Controls.Add(Connbtn);
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
+            ((System.ComponentModel.ISupportInitialize)serverData).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -92,5 +120,7 @@
         private Label statLbl;
         private Button pubBtn;
         private Button subBtn;
+        private DataGridView serverData;
+        private Button viewData;
     }
 }
