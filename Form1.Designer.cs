@@ -35,6 +35,7 @@
             viewData = new Button();
             topicBox = new TextBox();
             subscribeTopic = new DataGridView();
+            msgBox = new ListView();
             ((System.ComponentModel.ISupportInitialize)serverData).BeginInit();
             ((System.ComponentModel.ISupportInitialize)subscribeTopic).BeginInit();
             SuspendLayout();
@@ -70,6 +71,7 @@
             // 
             // serverData
             // 
+            serverData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             serverData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             serverData.Location = new Point(1, 244);
             serverData.Name = "serverData";
@@ -98,18 +100,28 @@
             // 
             // subscribeTopic
             // 
+            subscribeTopic.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             subscribeTopic.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             subscribeTopic.Location = new Point(357, 13);
             subscribeTopic.Name = "subscribeTopic";
             subscribeTopic.RowHeadersWidth = 51;
-            subscribeTopic.Size = new Size(367, 187);
+            subscribeTopic.Size = new Size(455, 187);
             subscribeTopic.TabIndex = 7;
+            // 
+            // msgBox
+            // 
+            msgBox.Location = new Point(833, 13);
+            msgBox.Name = "msgBox";
+            msgBox.Size = new Size(308, 187);
+            msgBox.TabIndex = 8;
+            msgBox.UseCompatibleStateImageBehavior = false;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1838, 622);
+            Controls.Add(msgBox);
             Controls.Add(subscribeTopic);
             Controls.Add(topicBox);
             Controls.Add(viewData);
@@ -136,5 +148,6 @@
         private Button viewData;
         private TextBox topicBox;
         private DataGridView subscribeTopic;
+        private ListView msgBox;
     }
 }

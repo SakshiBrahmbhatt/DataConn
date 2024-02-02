@@ -13,17 +13,41 @@ namespace DataConn
         //mqtt connection variables
         bool connect = false;
         private MqttClient mqttClient;
-        private List<String> messages;
         private List<String> subscribedTopics = new List<string>();
+        private List<MessageData> messages = new List<MessageData>();
 
         // mysql connection
         MySqlConnection con = new MySqlConnection("SERVER = 192.168.1.9 ; DATABASE = sys ; UID = db ; PASSWORD = Saks@2468 ;");
-
-
         public Form1()
         {
             InitializeComponent();
         }
+
+        private void MqttClient_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
+        {
+            string messageText = System.Text.Encoding.UTF8.GetString(e.Message);
+            MessageData newMessage = new MessageData(messageText);
+            messages.Add(newMessage);
+            UpdateListBox();
+        }
+
+        private void UpdateListBox()
+        {
+            if (msgBox.InvokeRequired)
+            {
+                msgBox.Invoke(new Action(UpdateListBox));
+            }
+            else
+            {
+                msgBox.Items.Clear();
+                foreach (var message in messages)
+                {
+                    msgBox.Items.Add(message.Message);
+                }
+            }
+        }
+
+
 
         private async void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -46,9 +70,7 @@ namespace DataConn
                     try
                     {
                         con.Open();
-
                         LoadSubscribedTopics();
-
                         con.Close();
                     }
                     catch (Exception ex)
@@ -59,6 +81,7 @@ namespace DataConn
                     DataSet ds = new DataSet();
                     da.Fill(ds);
                     subscribeTopic.DataSource = ds.Tables[0];
+                    mqttClient.MqttMsgPublishReceived += MqttClient_MqttMsgPublishReceived;
 
                 }
                 catch (MqttConnectionException ex)
@@ -77,10 +100,9 @@ namespace DataConn
 
         private void LoadSubscribedTopics()
         {
-            // Load all topics from the subscribe_topic table
             try
             {
-                subscribedTopics.Clear(); // Clear existing topics before loading
+                subscribedTopics.Clear();
 
                 string query = "SELECT Topic FROM subscribe_topic";
                 MySqlCommand cmd = new MySqlCommand(query, con);
@@ -129,7 +151,14 @@ namespace DataConn
 
         private void viewData_Click(object sender, EventArgs e)
         {
-            viewDataTable();
+            if (connect)
+            {
+                viewDataTable();
+            }
+            else
+            {
+                MessageBox.Show("First connect to broker");
+            }
         }
 
         private void serverData_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -186,5 +215,32 @@ namespace DataConn
             }
         }
 
+    }
+}
+
+public class MessageData
+{
+    public string Message { get; set; }
+    public DateTime ReceivedTime { get; set; }
+
+    public MessageData(string message)
+    {
+        Message = message;
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+
+        var otherMessage = (MessageData)obj;
+        return Message == otherMessage.Message;
+    }
+
+    public override int GetHashCode()
+    {
+        return Message.GetHashCode();
     }
 }
