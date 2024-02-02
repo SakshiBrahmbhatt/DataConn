@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Exceptions;
@@ -10,25 +12,54 @@ namespace DataConn
 {
     public partial class Form1 : Form
     {
-        //mqtt connection variables
+        // MQTT connection variables
         bool connect = false;
         private MqttClient mqttClient;
-        private List<String> subscribedTopics = new List<string>();
+        private List<string> subscribedTopics = new List<string>();
         private List<MessageData> messages = new List<MessageData>();
 
-        // mysql connection
-        MySqlConnection con = new MySqlConnection("SERVER = 192.168.1.9 ; DATABASE = sys ; UID = db ; PASSWORD = Saks@2468 ;");
+        // MySQL connection
+        MySqlConnection con = new MySqlConnection("SERVER = 192.168.1.9; DATABASE = sys; UID = db; PASSWORD = Saks@2468;");
+
+        // DeviceId field
+        private string deviceId;
+
         public Form1()
         {
             InitializeComponent();
+            this.FormClosing += Form1_FormClosing;
+
+            // Initialize deviceId (generate and set if not already set)
+            deviceId = Properties.Settings.Default.DeviceId;
+            if (string.IsNullOrEmpty(deviceId))
+            {
+                deviceId = GenerateRandomString(5);
+                Properties.Settings.Default.DeviceId = deviceId;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (connect)
+            {
+                mqttClient.Disconnect();
+                Connbtn.Text = "Connect";
+                statLbl.Text = "Not Connected to broker";
+                connect = false;
+                MessageBox.Show("Disconnected from MQTT broker!");
+            }
         }
 
         private void MqttClient_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
-            string messageText = System.Text.Encoding.UTF8.GetString(e.Message);
-            MessageData newMessage = new MessageData(messageText);
-            messages.Add(newMessage);
-            UpdateListBox();
+            if (connect)
+            {
+                string messageText = System.Text.Encoding.UTF8.GetString(e.Message);
+                MessageData newMessage = new MessageData(messageText, deviceId);
+                messages.Add(newMessage);
+                UpdateListBox();
+            }
         }
 
         private void UpdateListBox()
@@ -42,16 +73,17 @@ namespace DataConn
                 msgBox.Items.Clear();
                 foreach (var message in messages)
                 {
-                    msgBox.Items.Add(message.Message);
+                    msgBox.Items.Add($"{message.DeviceId}: {message.Message}");
                 }
             }
         }
 
-
-
-        private async void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        private string GenerateRandomString(int length)
         {
-            mqttClient.Disconnect();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            Random random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         private void Connbtn_Click(object sender, EventArgs e)
@@ -124,12 +156,9 @@ namespace DataConn
             }
         }
 
-
-
         private void Form1_Load(object sender, EventArgs e)
         {
-
-
+            // Additional initialization code if needed
         }
 
         void viewDataTable()
@@ -163,7 +192,7 @@ namespace DataConn
 
         private void serverData_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            // Handle cell content click if needed
         }
 
         private void subBtn_Click(object sender, EventArgs e)
@@ -214,33 +243,33 @@ namespace DataConn
                 MessageBox.Show("First connect to the broker");
             }
         }
-
-    }
-}
-
-public class MessageData
-{
-    public string Message { get; set; }
-    public DateTime ReceivedTime { get; set; }
-
-    public MessageData(string message)
-    {
-        Message = message;
     }
 
-    public override bool Equals(object obj)
+    public class MessageData
     {
-        if (obj == null || GetType() != obj.GetType())
+        public string Message { get; set; }
+        public string DeviceId { get; set; }
+
+        public MessageData(string message, string deviceId)
         {
-            return false;
+            Message = message;
+            DeviceId = deviceId;
         }
 
-        var otherMessage = (MessageData)obj;
-        return Message == otherMessage.Message;
-    }
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
 
-    public override int GetHashCode()
-    {
-        return Message.GetHashCode();
+            var otherMessage = (MessageData)obj;
+            return Message == otherMessage.Message;
+        }
+
+        public override int GetHashCode()
+        {
+            return Message.GetHashCode();
+        }
     }
 }

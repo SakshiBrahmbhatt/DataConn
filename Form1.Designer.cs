@@ -72,6 +72,7 @@
             // serverData
             // 
             serverData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            serverData.BackgroundColor = SystemColors.InactiveCaption;
             serverData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             serverData.Location = new Point(1, 244);
             serverData.Name = "serverData";
@@ -101,6 +102,7 @@
             // subscribeTopic
             // 
             subscribeTopic.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            subscribeTopic.BackgroundColor = SystemColors.InactiveCaption;
             subscribeTopic.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             subscribeTopic.Location = new Point(357, 13);
             subscribeTopic.Name = "subscribeTopic";
