@@ -35,6 +35,7 @@
             topicBox = new TextBox();
             subscribeTopic = new DataGridView();
             msgBox = new ListView();
+            filterMyData = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)serverData).BeginInit();
             ((System.ComponentModel.ISupportInitialize)subscribeTopic).BeginInit();
             SuspendLayout();
@@ -70,7 +71,7 @@
             // 
             // serverData
             // 
-            serverData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            serverData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
             serverData.BackgroundColor = SystemColors.InactiveCaption;
             serverData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             serverData.Location = new Point(1, 244);
@@ -107,11 +108,23 @@
             msgBox.TabIndex = 8;
             msgBox.UseCompatibleStateImageBehavior = false;
             // 
+            // filterMyData
+            // 
+            filterMyData.AutoSize = true;
+            filterMyData.Location = new Point(12, 214);
+            filterMyData.Name = "filterMyData";
+            filterMyData.Size = new Size(157, 24);
+            filterMyData.TabIndex = 9;
+            filterMyData.Text = "Only show my data";
+            filterMyData.UseVisualStyleBackColor = true;
+            filterMyData.CheckedChanged += filterMyData_CheckedChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1838, 622);
+            Controls.Add(filterMyData);
             Controls.Add(msgBox);
             Controls.Add(subscribeTopic);
             Controls.Add(topicBox);
@@ -138,5 +151,6 @@
         private TextBox topicBox;
         private DataGridView subscribeTopic;
         private ListView msgBox;
+        private CheckBox filterMyData;
     }
 }

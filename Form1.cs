@@ -99,7 +99,7 @@ namespace DataConn
                         cmd.Parameters.AddWithValue("@Pwrf", parts[17]);
                         cmd.Parameters.AddWithValue("@TPwr", parts[18]);
                         cmd.Parameters.AddWithValue("@Time", parts[19]);
-                        cmd.Parameters.AddWithValue("@Date", parts[20].Substring(0,12));
+                        cmd.Parameters.AddWithValue("@Date", parts[20].Substring(0, 12));
                         cmd.ExecuteNonQuery();
 
                         //MessageBox.Show("Topic inserted into bmcmqtt table!");
@@ -279,9 +279,57 @@ namespace DataConn
                 MessageBox.Show("First connect to the broker");
             }
         }
+
+        private void filterMyData_CheckedChanged(object sender, EventArgs e)
+        {
+            if (filterMyData.Checked)
+            {
+                try
+                {
+                    con.Open();
+
+                    // Use parameterized query to avoid SQL injection
+                    MySqlCommand cmd = new MySqlCommand("SELECT * FROM bmcmqtt WHERE DeviceId = @deviceId", con);
+                    cmd.Parameters.AddWithValue("@deviceId", deviceId);  // Assuming deviceId is a field in your class
+
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    serverData.DataSource = dt;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error selecting from bmcmqtt table: " + ex.Message);
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+            else
+            {
+                try
+                {
+
+                    MySqlDataAdapter da = new MySqlDataAdapter("SELECT * FROM bmcmqtt", con);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    serverData.DataSource = dt;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error selecting from bmcmqtt table: " + ex.Message);
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
     }
 
-    public class MessageData
+
+        public class MessageData
     {
         public string Message { get; set; }
 
