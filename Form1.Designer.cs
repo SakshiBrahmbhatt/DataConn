@@ -32,7 +32,6 @@
             statLbl = new Label();
             subBtn = new Button();
             serverData = new DataGridView();
-            viewData = new Button();
             topicBox = new TextBox();
             subscribeTopic = new DataGridView();
             msgBox = new ListView();
@@ -81,16 +80,6 @@
             serverData.TabIndex = 4;
             serverData.CellContentClick += serverData_CellContentClick;
             // 
-            // viewData
-            // 
-            viewData.Location = new Point(31, 209);
-            viewData.Name = "viewData";
-            viewData.Size = new Size(94, 29);
-            viewData.TabIndex = 5;
-            viewData.Text = "View Data";
-            viewData.UseVisualStyleBackColor = true;
-            viewData.Click += viewData_Click;
-            // 
             // topicBox
             // 
             topicBox.Location = new Point(131, 58);
@@ -126,7 +115,6 @@
             Controls.Add(msgBox);
             Controls.Add(subscribeTopic);
             Controls.Add(topicBox);
-            Controls.Add(viewData);
             Controls.Add(serverData);
             Controls.Add(subBtn);
             Controls.Add(statLbl);
@@ -147,7 +135,6 @@
         private Label statLbl;
         private Button subBtn;
         private DataGridView serverData;
-        private Button viewData;
         private TextBox topicBox;
         private DataGridView subscribeTopic;
         private ListView msgBox;

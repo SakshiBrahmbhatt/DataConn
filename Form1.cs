@@ -28,8 +28,6 @@ namespace DataConn
         {
             InitializeComponent();
             this.FormClosing += Form1_FormClosing;
-
-            // Initialize deviceId (generate and set if not already set)
             deviceId = Properties.Settings.Default.DeviceId;
             if (string.IsNullOrEmpty(deviceId))
             {
@@ -56,7 +54,7 @@ namespace DataConn
             if (connect)
             {
                 string messageText = System.Text.Encoding.UTF8.GetString(e.Message);
-                MessageData newMessage = new MessageData(messageText, deviceId);
+                MessageData newMessage = new MessageData(messageText);
                 messages.Add(newMessage);
                 UpdateListBox();
             }
@@ -73,10 +71,59 @@ namespace DataConn
                 msgBox.Items.Clear();
                 foreach (var message in messages)
                 {
-                    msgBox.Items.Add($"{message.DeviceId}: {message.Message}");
+                    msgBox.Items.Add($"{message.Message}");
+                    List<string> parts = new List<string>(message.Message.Split(','));
+                    try
+                    {
+                        con.Open();
+                        string insertQuery = "INSERT INTO bmcmqtt (DeviceId,BMCODE,Temperature,Pressure,Volume,Level,Generator,Grid,Aggregate,Compressor1,compressor2,VoltageU,VoltageV,VoltageW,CurrentU,CurrentV,CurrentW,Frequency,PwrF,TPwr,Time,Date) VALUES (@DeviceId,@BMCODE,@Temp,@Press,@Vol,@Lvl,@Gen,@Grid,@Agr,@Comp1,@Comp2,@VoltU,@VoltV,@VoltW,@CurrU,@CurrV,@CurrW,@Freq,@PwrF,@TPwr,@Time,@Date)";
+                        MySqlCommand cmd = new MySqlCommand(insertQuery, con);
+                        cmd.Parameters.AddWithValue("@DeviceId", deviceId);
+                        cmd.Parameters.AddWithValue("@BMCODE", parts[0]);
+                        cmd.Parameters.AddWithValue("@Temp", parts[1]);
+                        cmd.Parameters.AddWithValue("@Press", parts[2]);
+                        cmd.Parameters.AddWithValue("@Vol", parts[3]);
+                        cmd.Parameters.AddWithValue("@Lvl", parts[4]);
+                        cmd.Parameters.AddWithValue("@Gen", parts[5]);
+                        cmd.Parameters.AddWithValue("@Grid", parts[6]);
+                        cmd.Parameters.AddWithValue("@Agr", parts[7]);
+                        cmd.Parameters.AddWithValue("@Comp1", parts[8]);
+                        cmd.Parameters.AddWithValue("@Comp2", parts[9]);
+                        cmd.Parameters.AddWithValue("@VoltU", parts[10]);
+                        cmd.Parameters.AddWithValue("@VoltV", parts[11]);
+                        cmd.Parameters.AddWithValue("@VoltW", parts[12]);
+                        cmd.Parameters.AddWithValue("@CurrU", parts[13]);
+                        cmd.Parameters.AddWithValue("@CurrV", parts[14]);
+                        cmd.Parameters.AddWithValue("@CurrW", parts[15]);
+                        cmd.Parameters.AddWithValue("@Freq", parts[16]);
+                        cmd.Parameters.AddWithValue("@Pwrf", parts[17]);
+                        cmd.Parameters.AddWithValue("@TPwr", parts[18]);
+                        cmd.Parameters.AddWithValue("@Time", parts[19]);
+                        cmd.Parameters.AddWithValue("@Date", parts[20].Substring(0,12));
+                        cmd.ExecuteNonQuery();
+
+                        //MessageBox.Show("Topic inserted into bmcmqtt table!");
+
+                        MySqlDataAdapter da = new MySqlDataAdapter("SELECT * FROM bmcmqtt", con);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        serverData.DataSource = dt;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error inserting into bmcmqtt table: {ex.Message}");
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+
                 }
             }
         }
+
+
+
 
         private string GenerateRandomString(int length)
         {
@@ -114,6 +161,7 @@ namespace DataConn
                     da.Fill(ds);
                     subscribeTopic.DataSource = ds.Tables[0];
                     mqttClient.MqttMsgPublishReceived += MqttClient_MqttMsgPublishReceived;
+                    viewDataTable();
 
                 }
                 catch (MqttConnectionException ex)
@@ -178,18 +226,6 @@ namespace DataConn
             serverData.DataSource = ds.Tables[0];
         }
 
-        private void viewData_Click(object sender, EventArgs e)
-        {
-            if (connect)
-            {
-                viewDataTable();
-            }
-            else
-            {
-                MessageBox.Show("First connect to broker");
-            }
-        }
-
         private void serverData_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             // Handle cell content click if needed
@@ -210,7 +246,7 @@ namespace DataConn
                         try
                         {
                             con.Open();
-                            string insertQuery = "INSERT INTO subscribe_topic (topic, status) VALUES (@topic, @status)";
+                            string insertQuery = "INSERT INTO subscribe_topic (Topic, Status) VALUES (@topic, @status)";
                             MySqlCommand cmd = new MySqlCommand(insertQuery, con);
                             cmd.Parameters.AddWithValue("@Topic", topic);
                             cmd.Parameters.AddWithValue("@Status", 1);
@@ -248,12 +284,10 @@ namespace DataConn
     public class MessageData
     {
         public string Message { get; set; }
-        public string DeviceId { get; set; }
 
-        public MessageData(string message, string deviceId)
+        public MessageData(string message)
         {
             Message = message;
-            DeviceId = deviceId;
         }
 
         public override bool Equals(object obj)
