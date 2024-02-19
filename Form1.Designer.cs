@@ -34,10 +34,14 @@
             serverData = new DataGridView();
             topicBox = new TextBox();
             subscribeTopic = new DataGridView();
-            msgBox = new ListView();
             filterMyData = new CheckBox();
+            searchText = new TextBox();
+            searchBtn = new Button();
+            users = new DataGridView();
+            addUser = new Button();
             ((System.ComponentModel.ISupportInitialize)serverData).BeginInit();
             ((System.ComponentModel.ISupportInitialize)subscribeTopic).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)users).BeginInit();
             SuspendLayout();
             // 
             // Connbtn
@@ -79,7 +83,6 @@
             serverData.RowHeadersWidth = 51;
             serverData.Size = new Size(1837, 377);
             serverData.TabIndex = 4;
-            serverData.CellContentClick += serverData_CellContentClick;
             // 
             // topicBox
             // 
@@ -100,14 +103,6 @@
             subscribeTopic.Size = new Size(455, 187);
             subscribeTopic.TabIndex = 7;
             // 
-            // msgBox
-            // 
-            msgBox.Location = new Point(833, 13);
-            msgBox.Name = "msgBox";
-            msgBox.Size = new Size(308, 187);
-            msgBox.TabIndex = 8;
-            msgBox.UseCompatibleStateImageBehavior = false;
-            // 
             // filterMyData
             // 
             filterMyData.AutoSize = true;
@@ -119,13 +114,54 @@
             filterMyData.UseVisualStyleBackColor = true;
             filterMyData.CheckedChanged += filterMyData_CheckedChanged;
             // 
+            // searchText
+            // 
+            searchText.Location = new Point(218, 212);
+            searchText.Name = "searchText";
+            searchText.PlaceholderText = "topic/#";
+            searchText.Size = new Size(166, 27);
+            searchText.TabIndex = 10;
+            // 
+            // searchBtn
+            // 
+            searchBtn.Location = new Point(390, 210);
+            searchBtn.Name = "searchBtn";
+            searchBtn.Size = new Size(94, 29);
+            searchBtn.TabIndex = 11;
+            searchBtn.Text = "Search";
+            searchBtn.UseVisualStyleBackColor = true;
+            searchBtn.Click += searchBtn_Click;
+            // 
+            // users
+            // 
+            users.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            users.BackgroundColor = SystemColors.InactiveCaption;
+            users.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            users.Location = new Point(857, 12);
+            users.Name = "users";
+            users.RowHeadersWidth = 51;
+            users.Size = new Size(455, 187);
+            users.TabIndex = 12;
+            // 
+            // addUser
+            // 
+            addUser.Location = new Point(1174, 209);
+            addUser.Name = "addUser";
+            addUser.Size = new Size(138, 29);
+            addUser.TabIndex = 13;
+            addUser.Text = "Add New User";
+            addUser.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1838, 622);
+            Controls.Add(addUser);
+            Controls.Add(users);
+            Controls.Add(searchBtn);
+            Controls.Add(searchText);
             Controls.Add(filterMyData);
-            Controls.Add(msgBox);
             Controls.Add(subscribeTopic);
             Controls.Add(topicBox);
             Controls.Add(serverData);
@@ -138,6 +174,7 @@
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)serverData).EndInit();
             ((System.ComponentModel.ISupportInitialize)subscribeTopic).EndInit();
+            ((System.ComponentModel.ISupportInitialize)users).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -150,7 +187,10 @@
         private DataGridView serverData;
         private TextBox topicBox;
         private DataGridView subscribeTopic;
-        private ListView msgBox;
         private CheckBox filterMyData;
+        private TextBox searchText;
+        private Button searchBtn;
+        private DataGridView users;
+        private Button addUser;
     }
 }

@@ -37,7 +37,7 @@ namespace DataConn
         {
             String username = userValue.Text;
             String password = passwordValue.Text;
-            DataTable  table = new DataTable();
+            DataTable table = new DataTable();
             MySqlDataAdapter adapter = new MySqlDataAdapter();
             MySqlCommand command = new MySqlCommand("SELECT * FROM users", con);
             command.Parameters.Add("@username", MySqlDbType.VarChar).Value = username;
@@ -49,5 +49,6 @@ namespace DataConn
             Form1.Show();
             Form1.Closed += (s, args) => this.Close();
         }
+
     }
 }

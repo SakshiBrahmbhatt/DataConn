@@ -33,6 +33,8 @@
             userValue = new TextBox();
             passwordValue = new TextBox();
             Loginbutton = new Button();
+            topics_assign = new Label();
+            topicsToSelect = new ComboBox();
             SuspendLayout();
             // 
             // label1
@@ -70,19 +72,39 @@
             // 
             // Loginbutton
             // 
-            Loginbutton.Location = new Point(198, 226);
+            Loginbutton.Location = new Point(206, 285);
             Loginbutton.Name = "Loginbutton";
             Loginbutton.Size = new Size(94, 29);
             Loginbutton.TabIndex = 4;
-            Loginbutton.Text = "Login";
+            Loginbutton.Text = "Add User";
             Loginbutton.UseVisualStyleBackColor = true;
             Loginbutton.Click += Loginbutton_Click;
+            // 
+            // topics_assign
+            // 
+            topics_assign.AutoSize = true;
+            topics_assign.Location = new Point(92, 230);
+            topics_assign.Name = "topics_assign";
+            topics_assign.Size = new Size(129, 20);
+            topics_assign.TabIndex = 5;
+            topics_assign.Text = "Topic to subscribe";
+            // 
+            // topicsToSelect
+            // 
+            topicsToSelect.FormattingEnabled = true;
+            topicsToSelect.Location = new Point(227, 230);
+            topicsToSelect.Name = "topicsToSelect";
+            topicsToSelect.Size = new Size(151, 28);
+            topicsToSelect.TabIndex = 6;
+            topicsToSelect.Text = "select";
             // 
             // login
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(509, 409);
+            Controls.Add(topicsToSelect);
+            Controls.Add(topics_assign);
             Controls.Add(Loginbutton);
             Controls.Add(passwordValue);
             Controls.Add(userValue);
@@ -101,5 +123,7 @@
         private TextBox userValue;
         private TextBox passwordValue;
         private Button Loginbutton;
+        private Label topics_assign;
+        private ComboBox topicsToSelect;
     }
 }
