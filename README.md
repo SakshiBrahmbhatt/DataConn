@@ -7,7 +7,7 @@ Steps:
    
    <code> CREATE USER 'username'@'lan_ip' IDENTIFIED BY 'password';  </code> #replace username, lan_ip, and password according to you
    
-   <code> GRANT ALL PRIVILEGES ON *.* TO 'username'@lan_ip WITH GRANT OPTION; </code>
+   <code> GRANT ALL PRIVILEGES ON '*.*' TO 'username'@'lan_ip' WITH GRANT OPTION; </code>
    
    <code> FLUSH PRIVILEGES; </code>
    
