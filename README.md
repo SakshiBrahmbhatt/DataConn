@@ -5,7 +5,7 @@ Steps:
 2. On A, open command prompt (CMD) and run the command <code> ipconfig </code> to get LAN Adapter IP Address
 3. On A, open a CLI (here, cmd) and run the following three commands:
 
-   <code>mysql -u root -p</code>#enter password to enter your dtatabase then create user
+   <code>mysql -u root -p</code>#enter password to enter your database then create user
    
    <code> CREATE USER 'username'@'lan_ip' IDENTIFIED BY 'password';  </code> #replace username, lan_ip, and password according to you
    
