@@ -52,4 +52,4 @@ Steps:
 
 Note: I didn't need to add 'bind - address = lan_ip' in my.ini (in Windows) file. Nor did I turn off the firewall for port 3306 of MySQL to establish the connection. 
 
-<a href="https://stackoverflow.com/questions/21627421/mysql-unable-to-connect-with-remote-server">More info for connectivity of mySQL remotely</a>
+<a href="https://stackoverflow.com/questions/21627421/mysql-unable-to-connect-with-remote-server" target="_blank">More info for connectivity of mySQL remotely</a>
